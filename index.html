@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Betül Koytaviloglu – Portfolio</title>
+  <style>
+    /* ======= RESET ======= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --accent: #4da6ff;
+      --card: #1e1e1e;
+    }
+
+    body.light {
+      --bg: #ffffff;
+      --text: #121212;
+      --accent: #0077cc;
+      --card: #f0f0f0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      transition: background-color 0.4s, color 0.4s;
+      overflow-x: hidden;
+    }
+
+    /* ======= HEADER ======= */
+    header {
+      background-color: #000;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    body.light header {
+      background-color: #f0f0f0;
+    }
+
+    .branding {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .branding h1 {
+      font-size: 26px;
+      color: var(--accent);
+    }
+
+    .branding small {
+      font-size: 12px;
+      color: #888;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text);
+      padding: 10px 15px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li a:hover {
+      background-color: var(--accent);
+      color: #fff;
+      border-radius: 5px;
+      transform: scale(1.1);
+    }
+
+    nav ul li a img {
+      width: 16px;
+      height: 16px;
+      margin-left: 8px;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    body:not(.light) nav ul li a img {
+      filter: invert(1);
+    }
+
+    nav ul li a:hover img {
+      animation: rotateOnce 0.6s ease-in-out;
+    }
+
+    @keyframes rotateOnce {
+      0% { transform: rotate(0deg); }
+      60% { transform: rotate(90deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    /* ======= SETTINGS DROPDOWN ======= */
+    #settings-container {
+      position: relative;
+    }
+
+    #settings-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: var(--card);
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      display: none;
+      flex-direction: column;
+      min-width: 180px;
+      z-index: 1000;
+      animation: slideDown 0.3s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #settings-dropdown a {
+      padding: 10px 15px;
+      color: var(--text);
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    #settings-dropdown a:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--accent);
+    }
+
+    #settings-container:hover #settings-dropdown,
+    #settings-dropdown:hover {
+      display: flex;
+    }
+
+    /* ======= SECTIONS ======= */
+    .section {
+      padding: 60px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section h2 {
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    /* ======= ABOUT (CONTROLLER BACKGROUND) ======= */
+    #about {
+      position: relative;
+      overflow: hidden;
+    }
+
+    #about::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%) scale(1);
+      width: 400px;
+      height: 400px;
+      background-image: url("assets/controller.jpg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: right center;
+      opacity: 0.12;
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #about:hover::before {
+      opacity: 0.3;
+      transform: translateY(-50%) scale(1.07);
+    }
+
+    #about p {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ======= PROJECTS ======= */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .project {
+      background-color: var(--card);
+      border-radius: 10px;
+      padding: 15px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project:hover {
+      transform: scale(1.05);
+      z-index: 10;
+    }
+
+    .project h3 {
+      color: var(--accent);
+      transition: color 0.3s ease;
+    }
+
+    .project:hover h3 {
+      color: #fff;
+    }
+
+    .project p {
+      margin-bottom: 10px;
+    }
+
+    .project-image {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.8s ease, max-height 0.8s ease;
+    }
+
+    .project:hover .project-image {
+      opacity: 1;
+      max-height: 400px;
+    }
+
+    .project-image img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #000;
+      color: #555;
+      font-size: 14px;
+    }
+
+    body.light footer {
+      background-color: #ddd;
+      color: #444;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    /* ======= LIGHT/DARK MODE TOGGLER ======= */
+    .theme-toggle {
+      position: fixed;
+      top: 150px;
+      left: 0;
+      width: 120px;
+      height: 60px;
+      background-color: var(--card);
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: left 0.3s ease, background-color 0.3s ease;
+      z-index: 2000;
+    }
+
+    .theme-toggle:hover {
+      left: 10px;
+    }
+
+    .theme-toggle img {
+      width: 28px;
+      height: 28px;
+      transition: opacity 0.3s ease;
+    }
+
+    .theme-toggle:hover img.moon {
+      opacity: 0;
+    }
+
+    .theme-toggle:hover img.sun {
+      opacity: 1;
+    }
+
+    .sun {
+      position: absolute;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🌗 Dark/Light Mode Toggler -->
+  <div class="theme-toggle" onclick="toggleTheme()" title="Modus wechseln">
+    <img src="assets/moon.png" alt="Moon" class="moon" />
+    <img src="assets/sun.png" alt="Sun" class="sun" />
+  </div>
+
+  <!-- === Header === -->
+  <header>
+    <div class="branding">
+      <h1>Betül Koytaviloglu</h1>
+      <small>Hochschule Kempten</small>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#projects">Projekte</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+        <li id="settings-container">
+          <a href="#settings" id="settings-btn">Einstellungen <img src="assets/gear.png" alt="Settings Icon" /></a>
+          <div id="settings-dropdown">
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Kontakt</a>
+            <a href="#credits">Credits</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- === About Me === -->
+  <section id="about" class="section">
+    <h2>About Me</h2>
+    <p>Hey! Ich bin Betül, 21 Jahre alt und studiere Wirtschaftsingenieurwesen an der Hochschule Kempten.  
+    Ich liebe Games – aber nach einer Weile im Game-Engineering-Studium habe ich gemerkt, dass mir das Spielen einfach mehr Spaß macht als das Entwickeln selbst.  
+    Deshalb habe ich mein Studium gewechselt – und ich bin super happy mit meiner Entscheidung!</p>
+  </section>
+
+  <!-- === Projekte === -->
+  <section id="projects" class="section">
+    <h2>Projekte</h2>
+    <div class="project-grid">
+      <div class="project">
+        <h3>Unity Spiel</h3>
+        <p>Ein 3D-Spiel aus meinem Game-Engineering-Studium.</p>
+        <div class="project-image"><img src="assets/unity_screenshot.jpg" alt="Unity Projekt"></div>
+      </div>
+
+      <div class="project">
+        <h3>Excel-Analyse</h3>
+        <p>Marktanalyse und Visualisierung in Excel.</p>
+        <div class="project-image"><img src="assets/excel_screenshot.jpg" alt="Excel Projekt"></div>
+      </div>
+
+      <div class="project">
+        <h3>Website-Projekt :)</h3>
+        <p>Diese Website hier!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- === Kontakt === -->
+  <section id="contact" class="section">
+    <h2>Kontakt</h2>
+    <p>Du kannst mich erreichen unter:</p>
+    <ul>
+      <li><a href="https://github.com/BeutelK" target="_blank">Mein GitHub</a></li>
+      <li>E-Mail: <a href="mailto:betuel.koytaviloglu@stud.hs-kempten.de">betuel.koytaviloglu@stud.hs-kempten.de</a></li>
+    </ul>
+  </section>
+
+  <!-- === FAQ === -->
+  <section id="faq" class="section">
+    <h2>FAQ</h2>
+    <p><strong>Was studierst du aktuell?</strong><br>Wirtschaftsingenieurwesen an der Hochschule Kempten.</p>
+    <p><strong>Warum hast du dein Studium gewechselt?</strong><br>Weil ich gemerkt habe, dass mir das Arbeiten mit Technik und Wirtschaft mehr liegt als das reine Programmieren.</p>
+    <p><strong>Was machst du in deiner Freizeit?</strong><br>Ich spiele gerne Games, mache Musik und interessiere mich für Design und Technik.</p>
+  </section>
+
+  <!-- === Credits === -->
+  <section id="credits" class="section">
+    <h2>Credits</h2>
+    <p>
+      <a href="https://www.flaticon.com/free-icons/settings" title="settings icons">Settings icons created by Freepik - Flaticon</a><br>
+      Controller: Image by <a href="https://pixabay.com/users/vika_glitter-6314823/">Victoria</a> from <a href="https://pixabay.com/">Pixabay</a><br>
+      <a href="https://www.flaticon.com/free-icons/moon" title="moon icons">Moon icons created by Good Ware - Flaticon</a><br>
+      <a href="https://www.flaticon.com/free-icons/sun" title="sun icons">Sun icons created by Good Ware - Flaticon</a>
+    </p>
+  </section>
+
+  <!-- === Footer === -->
+  <footer>
+    <p>© 2025 Betül Koytaviloglu – Portfolio</p>
+  </footer>
+
+  <!-- === SCRIPT === -->
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const isLight = body.classList.toggle("light");
+      document.querySelector(".moon").style.opacity = isLight ? "0" : "1";
+      document.querySelector(".sun").style.opacity = isLight ? "1" : "0";
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const isLight = document.body.classList.contains("light");
+      document.querySelector(".moon").style.opacity = isLight ? "0" : "1";
+      document.querySelector(".sun").style.opacity = isLight ? "1" : "0";
+    });
+  </script>
+</body>
+</html>
